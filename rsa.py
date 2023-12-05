@@ -1,4 +1,4 @@
-# function to generate random prime integar
+# function to generate random prime integer
 import random 
 from primePy import primes
 from math import gcd as bltin_gcd
