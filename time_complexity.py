@@ -1,42 +1,52 @@
-'''
+"""
 Testing time complexity of RSA implementations
-'''
+"""
 import csv
-import time 
+import time
 import rsa
 
 REPETITION = 5
 
-# Testing different bit length numbers 
-def bit_length_complexity(min, max, step): 
+
+# Testing different bit length numbers
+def bit_length_complexity(min, max, step):
     """
-    Find the time complexity between different bit ranges
+    Find the time complexity between different bit ranges and saves results as CSV
+
+    min : The minium bit size.
+    max : The maximum bit size.
+    rep : Bit size step.
+
+    Return: 
+    A CSV with the saved bit size and time.
     """
-    min_value = 2**min 
-    max_value = 2**max 
+    min_value = 2**min
+    max_value = 2**max
     data = dict()
-    for size in range (min, max, step):
-        min_value = 2**size 
-        max_value = 2**(size+step)
+    for size in range(min, max, step):
+        min_value = 2**size
+        max_value = 2 ** (size + step)
         avg_time = get_average_RSA(min_value, max_value, REPETITION)
         data[f"{size}-{size+step}"] = avg_time
         print(f"Time from {size} bits to {size+step} bits: {avg_time}")
 
-    with open(f"{min}-{max}-step{step}.csv", 'w', newline='') as f:
+    with open(f"{min}-{max}-step{step}.csv", "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=data.keys())
         writer.writeheader()
         writer.writerow(data)
-        
+
+
 # Finding average time
 def get_average_RSA(min, max, rep):
     """
-    Get the average time for RSA given the minium, maxium prime and repetation
+    Get the average time for RSA given the minium, maximum prime and repetition.
 
-    min : the minium prime number 
-    max : the maximum prime number 
-    rep : the total amount of repetition
+    min : The minium prime number.
+    max : The maximum prime number.
+    rep : The total amount of repetition.
 
-    Return: the average time
+    Return: 
+    The average time for RSA key generation to run.
     """
     time_sum = 0
     for _ in range(rep):
