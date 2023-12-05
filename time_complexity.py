@@ -4,14 +4,15 @@ Testing time complexity of RSA implementations
 import csv
 import time
 import rsa
+import pandas
 
 REPETITION = 5
 
 
 # Testing different bit length numbers
-def bit_length_complexity(min, max, step):
+def prime_bit_length_complexity(min, max, step):
     """
-    Find the time complexity between different bit ranges and saves results as CSV
+    Find the time complexity between different bit ranges for prime numbers
 
     min : The minium bit size.
     max : The maximum bit size.
@@ -20,22 +21,46 @@ def bit_length_complexity(min, max, step):
     Return: 
     A CSV with the saved bit size and time.
     """
+    data = pandas.DataFrame({'Prime Number Range': [], 'Key Generation Time': [], 'Encryption Time': [], 'Decryption Time': [], 'CRT Decryption Time': []})
+    
     min_value = 2**min
     max_value = 2**max
-    data = dict()
+    
     for size in range(min, max, step):
+
+        # Set up range for prime numbers 
+        prime_range = f"{size}-{size+step}"
+        row = [prime_range]
         min_value = 2**size
         max_value = 2 ** (size + step)
-        avg_time = get_average_RSA(min_value, max_value, REPETITION)
-        data[f"{size}-{size+step}"] = avg_time
-        print(f"Time from {size} bits to {size+step} bits: {avg_time}")
+        print(f"Times from prime numbers {size} bits to {size+step} bits\n")
 
-    with open(f"{min}-{max}-step{step}.csv", "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=data.keys())
-        writer.writeheader()
-        writer.writerow(data)
+        # Key generation and time 
+        print("Key Generation\n")
+        avg_time_key = get_average_RSA(min_value, max_value, REPETITION)
+        row.append(avg_time_key)
+        print(f"Key Generation Time: {avg_time_key}\n")
+        public_key, private_key = rsa.rsa(min_value, max_value)
+        message = 12345
 
+        # Encryption 
+        print("Encryption\n")
+        avg_time_encryption = get_average_encryption(message, public_key, REPETITION)
+        row.append(avg_time_encryption)
+        print(f"Encryption Time: {avg_time_key}\n")
+        c = rsa.encrypt(message,public_key)
 
+        # Decryption
+        print("Decryption\n")
+        avg_time_decryption = get_average_decryption(c, private_key, REPETITION, message)
+        row.append(avg_time_decryption)
+        avg_time_decryption_crt = get_average_decryption_crt(c, private_key, REPETITION, message)
+        row.append(avg_time_decryption_crt)
+        print(f"Decryption Time: {avg_time_decryption}\n")
+        print(f"Decryption CRT Time: {avg_time_decryption_crt}\n")
+        data.loc[len(data)] = row
+    # save data to csv
+    data.to_csv(f"prime_{min_value}-{max_value}_step-{step}.csv")
 # Finding average time
 def get_average_RSA(min, max, rep):
     """
@@ -58,5 +83,43 @@ def get_average_RSA(min, max, rep):
     average = time_sum / rep
     return average
 
+def get_average_encryption (m, public_key, rep):
+    time_sum = 0
+    for _ in range(rep):
+        start_time = time.time()
+        c = rsa.encrypt(m,public_key)
+        end_time = time.time()
+        total_time = end_time - start_time
+        time_sum = total_time + time_sum
+    average = time_sum / rep
+    return average
 
-bit_length_complexity(3, 8, 1)
+def get_average_decryption (c, private_key, rep, message):
+    time_sum = 0
+    for _ in range(rep):
+        start_time = time.time()
+        m = rsa.decrypt(c, private_key)
+        if m != message: 
+            print("BROKEN DECRYPTION\n")
+            print(f"Got {m}, expected {message}\n")
+        end_time = time.time()
+        total_time = end_time - start_time
+        time_sum = total_time + time_sum
+    average = time_sum / rep
+    return average
+
+def get_average_decryption_crt (c, private_key, rep, message):
+    time_sum = 0
+    for _ in range(rep):
+        start_time = time.time()
+        m = rsa.decrypt(c, private_key)
+        if m != message: 
+            print("BROKEN DECRYPTION CRT\n")
+            print(f"Got {m}, expected {message}\n")
+        end_time = time.time()
+        total_time = end_time - start_time
+        time_sum = total_time + time_sum
+    average = time_sum / rep
+    return average
+
+prime_bit_length_complexity(4,8,1)
