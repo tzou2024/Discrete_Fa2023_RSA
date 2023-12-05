@@ -7,7 +7,7 @@ import math
 
 # Memoized using LRU Cache
 @lru_cache(maxsize=None)
-def generate_prime(min, max):
+def generate_primes(min, max):
     """
     Generate a random prime number within the given range.
 
@@ -18,7 +18,8 @@ def generate_prime(min, max):
     Random prime number within the specified range.
     """
     available = primes.between(min, max)
-    return random.choice(available), random.choice(available)
+    print("checking rpimes uniqueness: ", len(available) == len(set(available)))
+    return random.sample(available,2)
 
 def coprime2(a, b):
     """
@@ -98,12 +99,12 @@ def rsa(min, max):
     Public and private keys.
     """
     # first choose p and q as two prime numbers that are different from each other
-    (p,q) = generate_prime(min, max)
+    (p,q) = generate_primes(min, max)
 
     print("generate p and q")
 
     while p == q:
-        q = generate_prime(min, max)
+        q = generate_primes(min, max)
     
     # calculate an n = p * q
     n = p * q
@@ -153,7 +154,7 @@ def decrypt(c, priv):
     Returns:
     Decrypted message.
     """
-    return pow(c,priv["d"], pub["n"] )
+    return pow(c,priv["d"], priv["n"] )
 
 def decrypt_CRT(c, priv):  
     """
@@ -178,14 +179,28 @@ def decrypt_CRT(c, priv):
     m = m2 + h * q 
     return m 
     
- 
-print("generating")
-pub, priv = rsa(2**8, 3**8)
-print(pub, priv)
-m = 13313
-print("encrypt")
-c = encrypt(m, pub)
-print("decrypt")
-m2 = decrypt(c, priv)
-m3 = decrypt_CRT(c, priv)
-print(m2 == m3)
+def runthrough(num_times):
+    for _ in range(num_times):
+        print("generating pub and priv)")
+        pub, priv = rsa(2**8, 3**8)
+        m = 2932
+        print("encrypting")
+        c = encrypt(m, pub)
+        print("Decrypting")
+        m2 = decrypt(c, priv)
+        print("DecryptingCRT")
+        m3 = decrypt_CRT(c, priv)
+        print("Worked?")
+        print(m2==m3 and m==m2)
+        print("+++++++++++++++++++++++++++++++++++")
+# print("generating")
+# pub, priv = rsa(2**8, 3**8)
+# print(pub, priv)
+# m = 13313
+# print("encrypt")
+# c = encrypt(m, pub)
+# print("decrypt")
+# m2 = decrypt(c, priv)
+# m3 = decrypt_CRT(c, priv)
+# print(m2 == m3)
+runthrough(50)
