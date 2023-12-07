@@ -1,9 +1,10 @@
 # function to generate random prime integer
-import random 
+import random
 from primePy import primes
 from math import gcd as bltin_gcd
 from functools import lru_cache
 import math
+
 
 # Memoized using LRU Cache
 # @lru_cache(maxsize=None)
@@ -19,7 +20,8 @@ def generate_primes(min, max):
     """
     available = primes.between(min, max)
     print("checking rpimes uniqueness: ", len(available) == len(set(available)))
-    return random.sample(available,2)
+    return random.sample(available, 2)
+
 
 def coprime2(a, b):
     """
@@ -33,10 +35,11 @@ def coprime2(a, b):
     """
     return bltin_gcd(a, b) == 1
 
+
 def mod_inverse(e, phi):
     """
     Calculate the modular multiplicative inverse of 'e' modulo 'phi'.
-    
+
     e: Number for which the inverse is calculated.
     phi: Euler's totient function value.
 
@@ -48,19 +51,21 @@ def mod_inverse(e, phi):
             return d
     return ValueError
 
+
 def euler_totient(p, q):
     """
     Calculate Euler's Totient function (phi) for the given primes p and q.
-    
+
     p: First prime number.
     q: Second prime number.
 
     Returns:
     Euler's Totient function value for p and q.
     """
-    #I think that this is a shortcut
+    # I think that this is a shortcut
     phi_n = (p - 1) * (q - 1)
     return phi_n
+
 
 def lcm(a, b):
     """
@@ -72,7 +77,8 @@ def lcm(a, b):
     Returns:
     Least common multiple of a and b.
     """
-    return abs(a*b) // bltin_gcd(a, b)
+    return abs(a * b) // bltin_gcd(a, b)
+
 
 def carmichael_function(p, q):
     """
@@ -85,8 +91,9 @@ def carmichael_function(p, q):
     Returns:
     Carmichael's function value for p and q.
     """
-    rho_n = lcm((p-1),(q-1))
+    rho_n = lcm((p - 1), (q - 1))
     return rho_n
+
 
 def rsa(min, max):
     """
@@ -99,22 +106,22 @@ def rsa(min, max):
     Public and private keys.
     """
     # first choose p and q as two prime numbers that are different from each other
-    (p,q) = generate_primes(min, max)
+    (p, q) = generate_primes(min, max)
 
     print("generate p and q")
 
     while p == q:
         q = generate_primes(min, max)
-    
+
     # calculate an n = p * q
     n = p * q
-    
+
     # Eulers totients
     print("totient")
-    totient_n = carmichael_function(p, q) #either use gcd or lcm 
-    
+    totient_n = carmichael_function(p, q)  # either use gcd or lcm
+
     # n can be made public, p q and phi stay secret
- 
+
     # pick a public key e such that 2 < e < phi(n) and gcd(e, phi(n) = 1
     print("e")
     e = random.randint(2, totient_n)
@@ -124,11 +131,11 @@ def rsa(min, max):
     # calculate a private key d such that e * d == 1 mod(phi(n)) || e * d mod phi(n) = 1
     print("d")
     d = mod_inverse(e, totient_n)
-    
-    # public information is e and n 
+
+    # public information is e and n
     # private is d, n, p, and q
-    pub = {"e":e, "n":n}
-    priv = {"d":d, "n":n, "p": p, "q":q}
+    pub = {"e": e, "n": n}
+    priv = {"d": d, "n": n, "p": p, "q": q}
     return pub, priv
 
 
@@ -144,6 +151,7 @@ def encrypt(m, pub):
     """
     return pow(m, pub["e"], pub["n"])
 
+
 def decrypt(c, priv):
     """
     Decrypt the message using the private key d.
@@ -154,12 +162,13 @@ def decrypt(c, priv):
     Returns:
     Decrypted message.
     """
-    return pow(c,priv["d"], priv["n"] )
+    return pow(c, priv["d"], priv["n"])
 
-def decrypt_CRT(c, priv):  
+
+def decrypt_CRT(c, priv):
     """
     Decrypt the message using Chinese Remainder Theorem.
-    
+
     c: Encrypted message.
     priv: Private key (d, n, p, q).
 
@@ -169,16 +178,17 @@ def decrypt_CRT(c, priv):
     p = priv["p"]
     q = priv["q"]
     d = priv["d"]
-    dq = pow(d, 1, q - 1) 
-    dp = pow(d, 1, p - 1) 
-    m1 = pow(c, dp, p) 
-    m2 = pow(c, dq, q) 
-    
-    qinv = mod_inverse(q, p) 
-    h = (qinv * (m1 - m2)) % p 
-    m = m2 + h * q 
-    return m 
-    
+    dq = pow(d, 1, q - 1)
+    dp = pow(d, 1, p - 1)
+    m1 = pow(c, dp, p)
+    m2 = pow(c, dq, q)
+
+    qinv = mod_inverse(q, p)
+    h = (qinv * (m1 - m2)) % p
+    m = m2 + h * q
+    return m
+
+
 def runthrough(num_times):
     for _ in range(num_times):
         print("generating pub and priv)")
@@ -191,17 +201,48 @@ def runthrough(num_times):
         print("DecryptingCRT")
         m3 = decrypt_CRT(c, priv)
         print("Worked?")
-        print(m2==m3 and m==m2)
+        print(m2 == m3 and m == m2)
         print("+++++++++++++++++++++++++++++++++++")
-# print("generating")
-# pub, priv = rsa(2**8, 3**8)
-# print(pub, priv)
-# m = 13313
-# print("encrypt")
-# c = encrypt(m, pub)
-# print("decrypt")
-# m2 = decrypt(c, priv)
-# m3 = decrypt_CRT(c, priv)
-# print(m2 == m3)
+
+
+def generate_pq(min, max):
+    (p, q) = generate_primes(min, max)
+    print("generate p and q")
+    while p == q:
+        q = generate_primes(min, max)
+    return (p, q)
+
+
+def rsa_time_complexity(p, q, euler=True):
+    # calculate an n = p * q
+    n = p * q
+
+    # Eulers totients
+    print("totient")
+    # Chose to use euler vs totient function
+    if euler:
+        totient_n = euler_totient(p, q)
+    else:
+        totient_n = carmichael_function(p, q)  # either use gcd or lcm
+
+    # n can be made public, p q and phi stay secret
+
+    # pick a public key e such that 2 < e < phi(n) and gcd(e, phi(n) = 1
+    print("e")
+    e = random.randint(2, totient_n)
+    while not coprime2(e, totient_n):
+        e = random.randint(2, totient_n)
+
+    # calculate a private key d such that e * d == 1 mod(phi(n)) || e * d mod phi(n) = 1
+    print("d")
+    d = mod_inverse(e, totient_n)
+
+    # public information is e and n
+    # private is d, n, p, and q
+    pub = {"e": e, "n": n}
+    priv = {"d": d, "n": n, "p": p, "q": q}
+    return pub, priv
+
+
 if __name__ == "__main__":
     runthrough(50)
