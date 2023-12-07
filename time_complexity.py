@@ -5,6 +5,7 @@ import csv
 import time
 import rsa
 import pandas
+import random
 
 REPETITION = 5
 
@@ -41,7 +42,8 @@ def prime_bit_length_complexity(min, max, step):
         row.append(avg_time_key)
         print(f"Key Generation Time: {avg_time_key}\n")
         public_key, private_key = rsa.rsa(min_value, max_value)
-        message = 12345
+        # generate a radndom message less than n (in this case less than p)
+        message = random.randint(0,min_value)
 
         # Encryption 
         print("Encryption\n")

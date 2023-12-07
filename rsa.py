@@ -6,7 +6,7 @@ from functools import lru_cache
 import math
 
 # Memoized using LRU Cache
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None)
 def generate_primes(min, max):
     """
     Generate a random prime number within the given range.
@@ -183,7 +183,7 @@ def runthrough(num_times):
     for _ in range(num_times):
         print("generating pub and priv)")
         pub, priv = rsa(2**8, 3**8)
-        m = 2932
+        m = 12345
         print("encrypting")
         c = encrypt(m, pub)
         print("Decrypting")
@@ -203,4 +203,5 @@ def runthrough(num_times):
 # m2 = decrypt(c, priv)
 # m3 = decrypt_CRT(c, priv)
 # print(m2 == m3)
-runthrough(50)
+if __name__ == "__main__":
+    runthrough(50)
