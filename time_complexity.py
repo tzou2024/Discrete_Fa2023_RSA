@@ -183,4 +183,4 @@ def get_average_decryption_crt(c, private_key, rep, message):
     return average
 
 
-prime_bit_length_complexity(5, 6, 1)
+prime_bit_length_complexity(4, 16, 1)
