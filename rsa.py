@@ -111,7 +111,7 @@ def rsa(min, max):
     
     # Eulers totients
     print("totient")
-    totient_n = euler_totient(p, q) #either use gcd or lcm 
+    totient_n = carmichael_function(p, q) #either use gcd or lcm 
     
     # n can be made public, p q and phi stay secret
  

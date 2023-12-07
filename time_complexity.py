@@ -62,7 +62,7 @@ def prime_bit_length_complexity(min, max, step):
         print(f"Decryption CRT Time: {avg_time_decryption_crt}\n")
         data.loc[len(data)] = row
     # save data to csv
-    data.to_csv(f"prime_{min_value}-{max_value}_step-{step}.csv")
+    data.to_csv(f"prime_{min}-{max}_step-{step}.csv")
 # Finding average time
 def get_average_RSA(min, max, rep):
     """
@@ -124,4 +124,4 @@ def get_average_decryption_crt (c, private_key, rep, message):
     average = time_sum / rep
     return average
 
-prime_bit_length_complexity(4,8,1)
+prime_bit_length_complexity(4,15,1)
