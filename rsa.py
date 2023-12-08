@@ -94,13 +94,18 @@ def carmichael_function(p, q):
     rho_n = lcm((p - 1), (q - 1))
     return rho_n
 
+<<<<<<< Updated upstream
 
 def rsa(min, max):
+=======
+def rsa(min, max, e=None):
+>>>>>>> Stashed changes
     """
     Implement the RSA key generation based given a range for prime numbers.
 
     min: Minimum value for prime number generation.
     max: Maximum value for prime number generation.
+    e: public key if we want to manually set what e is. 
 
     Returns:
     Public and private keys.
@@ -124,9 +129,10 @@ def rsa(min, max):
 
     # pick a public key e such that 2 < e < phi(n) and gcd(e, phi(n) = 1
     print("e")
-    e = random.randint(2, totient_n)
-    while not coprime2(e, totient_n):
+    if e == None:
         e = random.randint(2, totient_n)
+        while not coprime2(e, totient_n):
+            e = random.randint(2, totient_n)
 
     # calculate a private key d such that e * d == 1 mod(phi(n)) || e * d mod phi(n) = 1
     print("d")
