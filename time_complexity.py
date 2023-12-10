@@ -8,7 +8,6 @@ import random
 
 REPETITION = 5
 
-
 # Testing different bit length numbers
 def prime_bit_length_complexity(min, max, step):
     """
@@ -115,7 +114,7 @@ def prime_bit_length_complexity(min, max, step):
         print(f"Decryption CRT Time: {avg_time_decryption_crt}\n")
         data.loc[len(data)] = row
     # save data to csv
-    data.to_csv(f"prime_{min}-{max}_step-{step}.csv")
+    data.to_csv(f"Time_Data/prime_{min}-{max}_step-{step}.csv")
 
 
 # Finding average time
@@ -182,5 +181,5 @@ def get_average_decryption_crt(c, private_key, rep, message):
     average = time_sum / rep
     return average
 
-
-prime_bit_length_complexity(4, 16, 1)
+if __name__ == "__main__":
+    prime_bit_length_complexity(4, 5, 1)

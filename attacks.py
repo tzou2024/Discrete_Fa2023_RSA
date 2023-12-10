@@ -1,12 +1,12 @@
 #File with attacks (Coppersmith & Weiner)
 
-import random 
-from primePy import primes
-from math import gcd as bltin_gcd
-from functools import lru_cache
-import math
-from rsa import rsa,encrypt, decrypt, decrypt_CRT, mod_inverse
-import gmpy
+#import random 
+#from primePy import primes
+#from math import gcd as bltin_gcd
+#from functools import lru_cache
+#import math
+from rsa import rsa,encrypt, mod_inverse # decrypt, decrypt_CRT,
+#import gmpy
 
 #Hastad's BroadCast Attack
 """
@@ -92,14 +92,6 @@ def hastad_ciphertexts(message, e):
     print(M)
     m = M**(1.0/3.0)
     print(m)
-
-
-
-
-    
-
-    
-
 
 
 #Weiner's Attack

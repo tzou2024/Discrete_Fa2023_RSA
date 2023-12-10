@@ -2,8 +2,6 @@
 import random
 from primePy import primes
 from math import gcd as bltin_gcd
-from functools import lru_cache
-import math
 
 
 # Memoized using LRU Cache
@@ -94,12 +92,7 @@ def carmichael_function(p, q):
     rho_n = lcm((p - 1), (q - 1))
     return rho_n
 
-<<<<<<< Updated upstream
-
-def rsa(min, max):
-=======
 def rsa(min, max, e=None):
->>>>>>> Stashed changes
     """
     Implement the RSA key generation based given a range for prime numbers.
 
