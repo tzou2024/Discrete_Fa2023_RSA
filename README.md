@@ -88,6 +88,21 @@ As part of this project we have written a report on the proof of correctness of 
 
 ## Attacks
 
+There are two attacks implemented as part of the project: The Hastad Broadcast Attack and the Wiener's Attack. These two are one of the most well-known RSA attacks that have been proven to work due to specific conditions usually reliant on poorly chosen values for the algorithm. For implenmetationb, we created a file called `attacks.py` which stores functions that implement and solve these attacks, dependent on functions created in `rsa.py`. 
+
+### Hastad BroadCast Attack
+
+The Hastad Broadcast Attack is an attack which allows us to bypass the need for a private key and unencrypt ciphertext given these specific conditions:
+
+1. We need to have multiple different ciphertexts (C) generated from the same plaintext (M). Specifically, because Hastad's Broadcast works, once the number of ciphertexts > public key, this attack will work work. 
+
+2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), but the public key (e) is the same.
+3. The public key is a small value (small public exponent). 
+
+This allows us to use the Chinese Remainder Theorem and decipher what the plaintext is given multiple encryptions of it. The function `hastad_ciphertexts`-
+
+###
+
 ## Time Complexity
 
 We compared multiple variations of RSA with a timing analysis. We ran each function 5 times and averaged the time together to gain an accurate understanding of the difference.
