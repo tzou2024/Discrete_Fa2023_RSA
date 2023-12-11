@@ -22,7 +22,7 @@ In order to run the algorithm and timing analysis, you need to install the follo
 - math
 - functools
 - gmpy
-  = time
+- time
 - pandas
 
 ## How to Run:
@@ -56,6 +56,7 @@ The result of the time analysis should be printed in the terminal as well as sav
 #### Running Attacks:
 
 ## RSA
+As part of this project we have written a report on the proof of correctness of our RSA enryption viewable here[INSERT LINK HERE](), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
 
 ## Attacks
 
