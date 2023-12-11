@@ -21,7 +21,6 @@ def generate_primes(min_value, max_value):
     Random prime number within the specified range.
     """
     available = primes.between(min_value, max_value)
-    print("checking rpimes uniqueness: ", len(available) == len(set(available)))
     return random.sample(available, 2)
 
 
@@ -111,9 +110,6 @@ def rsa(min_value, max_value, e=None, euler=True):
     """
     # first choose p and q as two prime numbers that are different from each other
     (p, q) = generate_primes(min_value, max_value)
-
-    print("generate p and q")
-
     while p == q:
         q = generate_primes(min_value, max_value)
 
@@ -285,8 +281,10 @@ if __name__ == "__main__":
     message = 12
     # Encrypt message
     encrypted_message = encrypt(message, public_key)
+    print(f"Encrypted message: {encrypted_message}")
     # Decrypt message
     decrypted_message = decrypt(encrypted_message, private_key)
     # Decrypt message with Chinese remainder theorem
     decrypted_message_CRT = decrypt_CRT(encrypted_message, private_key)
-    print(decrypted_message)
+    print(f"decrypted message: {decrypted_message}")
+    print(f"decrypted message with CRT: {decrypted_message_CRT}")

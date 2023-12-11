@@ -27,11 +27,36 @@ In order to run the algorithm and timing analysis, you need to install the follo
 
 ## How to Run:
 
-#### Generating a Public and Private Key:
+#### Running RSA Encryption
 
-#### Encrypting a Message:
+To generate the public key and private key update values for the minium and maximum prime number for prime number generation `rsa.py`. You can also switch `euler` to `True` for using the Euler's totient function or `False` to use Carmichael's totient function. 
 
-#### Decrypting a message:
+```
+# Range of prime numbers for p and q
+min_prime_value = 2**8
+max_prime_value = 3**8
+# Set the RSA to use Euler(True) or Carmichael's (False)
+euler = False
+# Generate public and private keys
+```
+To encrypt and decrypt a message, update the value for message with a different integer that is less than the minium prime number. The message encrypted, then decrypted with private key `d` as well as the Chinese Remainder Theorem(CRT).
+```
+# int message
+message = 12
+# Encrypt message
+encrypted_message = encrypt(message, public_key)
+print(f"Encrypted message: {encrypted_message}")
+# Decrypt message
+decrypted_message = decrypt(encrypted_message, private_key)
+# Decrypt message with Chinese remainder theorem
+decrypted_message_CRT = decrypt_CRT(encrypted_message, private_key)
+```
+
+Then run the following command in the terminal within the repository directory.
+
+```
+$ python3 rsa.py
+```
 
 #### Running a Timing Analysis:
 

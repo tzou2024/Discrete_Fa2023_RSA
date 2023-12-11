@@ -7,7 +7,7 @@ import pandas
 import rsa
 
 
-REPETITION = 5
+REPETITION = 1
 
 
 # Testing different bit length numbers
@@ -37,12 +37,9 @@ def prime_bit_length_complexity(min_bit_size, max_bit_size, step):
             "Carmichael CRT Decryption Time": [],
         }
     )
-    # Convert bit size to integers
-    min_value = 2**min_bit_size
-    max_value = 2**max_bit_size
 
     # Loop through every bit size
-    for size in range(min, max, step):
+    for size in range(min_bit_size, max_bit_size, step):
         # Set up range for prime numbers
         prime_range = f"{size}-{size+step}"
         row = [prime_range]
@@ -74,7 +71,7 @@ def prime_bit_length_complexity(min_bit_size, max_bit_size, step):
         print("Encryption\n")
         avg_time_encryption = get_average_encryption(message, public_key, REPETITION)
         row.append(avg_time_encryption)
-        print(f"Encryption Time: {avg_time_key}\n")
+        print(f"Encryption Time: {avg_time_encryption}\n")
         c = rsa.encrypt(message, public_key)
 
         # Decryption
@@ -104,7 +101,7 @@ def prime_bit_length_complexity(min_bit_size, max_bit_size, step):
         print("Encryption\n")
         avg_time_encryption = get_average_encryption(message, public_key, REPETITION)
         row.append(avg_time_encryption)
-        print(f"Encryption Time: {avg_time_key}\n")
+        print(f"Encryption Time: {avg_time_encryption}\n")
         c = rsa.encrypt(message, public_key)
 
         # Decryption
@@ -229,7 +226,7 @@ def get_average_decryption_crt(c, private_key, rep, message):
 
 if __name__ == "__main__":
     # size in bits
-    min_size_prime = 4
-    max_size_prime = 5
+    min_size_prime = 17
+    max_size_prime = 20
     step_size = 1
     prime_bit_length_complexity(min_size_prime, max_size_prime, step_size)
