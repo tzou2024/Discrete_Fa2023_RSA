@@ -29,7 +29,7 @@ In order to run the algorithm and timing analysis, you need to install the follo
 
 #### Running RSA Encryption
 
-To generate the public key and private key update values for the minium and maximum prime number for prime number generation `rsa.py`. You can also switch `euler` to `True` for using the Euler's totient function or `False` to use Carmichael's totient function. 
+To generate the public key and private key update values for the minium and maximum prime number for prime number generation `rsa.py`. You can also switch `euler` to `True` for using the Euler's totient function or `False` to use Carmichael's totient function.
 
 ```
 # Range of prime numbers for p and q
@@ -39,7 +39,9 @@ max_prime_value = 3**8
 euler = False
 # Generate public and private keys
 ```
+
 To encrypt and decrypt a message, update the value for message with a different integer that is less than the minium prime number. The message encrypted, then decrypted with private key `d` as well as the Chinese Remainder Theorem(CRT).
+
 ```
 # int message
 message = 12
@@ -81,6 +83,7 @@ The result of the time analysis should be printed in the terminal as well as sav
 #### Running Attacks:
 
 ## RSA
+
 As part of this project we have written a report on the proof of correctness of our RSA enryption viewable here[INSERT LINK HERE](), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
 
 ## Attacks
