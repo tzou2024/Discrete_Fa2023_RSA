@@ -1,3 +1,6 @@
+"""
+Implementation of RSA including variations with Euler's totient function, Carmichael totient function, and Chinese Remainder Theorem.
+"""
 # function to generate random prime integer
 import random
 from primePy import primes
@@ -92,13 +95,14 @@ def carmichael_function(p, q):
     rho_n = lcm((p - 1), (q - 1))
     return rho_n
 
-def rsa(min, max, e=None):
+
+def rsa(min, max, e=None, euler=True):
     """
     Implement the RSA key generation based given a range for prime numbers.
 
     min: Minimum value for prime number generation.
     max: Maximum value for prime number generation.
-    e: public key if we want to manually set what e is. 
+    e: public key if we want to manually set what e is.
 
     Returns:
     Public and private keys.
@@ -114,23 +118,23 @@ def rsa(min, max, e=None):
     # calculate an n = p * q
     n = p * q
 
-    # Eulers totients
-    print("totient")
-    totient_n = carmichael_function(p, q)  # either use gcd or lcm
+    # Choose totient function
+    # Chose to use euler vs carmichael totient function
+    if euler:
+        totient_n = euler_totient(p, q)
+    else:
+        totient_n = carmichael_function(p, q)  # either use gcd or lcm
 
     # n can be made public, p q and phi stay secret
 
     # pick a public key e such that 2 < e < phi(n) and gcd(e, phi(n) = 1
-    print("e")
     if e == None:
         e = random.randint(2, totient_n)
         while not coprime2(e, totient_n):
             e = random.randint(2, totient_n)
 
     # calculate a private key d such that e * d == 1 mod(phi(n)) || e * d mod phi(n) = 1
-    print("d")
     d = mod_inverse(e, totient_n)
-
     # public information is e and n
     # private is d, n, p, and q
     pub = {"e": e, "n": n}
@@ -161,7 +165,9 @@ def decrypt(c, priv):
     Returns:
     Decrypted message.
     """
-    return pow(c, priv["d"], priv["n"])
+    d = priv["d"]
+    n = priv["n"]
+    return pow(c, d, n)
 
 
 def decrypt_CRT(c, priv):
@@ -189,6 +195,11 @@ def decrypt_CRT(c, priv):
 
 
 def runthrough(num_times):
+    """
+    Checking Validation of RSA with multiple run throughs.
+
+    num_times: number of times to run through RSA with
+    """
     for _ in range(num_times):
         print("generating pub and priv)")
         pub, priv = rsa(2**8, 3**8)
@@ -205,6 +216,17 @@ def runthrough(num_times):
 
 
 def generate_pq(min, max):
+    """
+    Generate two distinct prime numbers 'p' and 'q' within the given range.
+
+    Parameters:
+    min: Lower limit of the range for prime number generation.
+    max: Upper limit of the range for prime number generation.
+
+    Returns:
+    A tuple containing two distinct prime numbers 'p' and 'q'.
+    """
+
     (p, q) = generate_primes(min, max)
     print("generate p and q")
     while p == q:
@@ -213,27 +235,33 @@ def generate_pq(min, max):
 
 
 def rsa_time_complexity(p, q, euler=True):
+    """
+    Implement the RSA key generation based given a range for prime numbs p and q.
+    This implementation is used to test different variants of RSA with p and q
+    remaining the same.
+
+    p: prime number p
+    q: prime number q
+
+    Returns:
+    Public and private keys.
+    """
     # calculate an n = p * q
     n = p * q
 
     # Eulers totients
-    print("totient")
     # Chose to use euler vs totient function
     if euler:
         totient_n = euler_totient(p, q)
     else:
         totient_n = carmichael_function(p, q)  # either use gcd or lcm
-
     # n can be made public, p q and phi stay secret
-
     # pick a public key e such that 2 < e < phi(n) and gcd(e, phi(n) = 1
-    print("e")
     e = random.randint(2, totient_n)
     while not coprime2(e, totient_n):
         e = random.randint(2, totient_n)
 
     # calculate a private key d such that e * d == 1 mod(phi(n)) || e * d mod phi(n) = 1
-    print("d")
     d = mod_inverse(e, totient_n)
 
     # public information is e and n
@@ -244,4 +272,19 @@ def rsa_time_complexity(p, q, euler=True):
 
 
 if __name__ == "__main__":
-    runthrough(50)
+    # Range of prime numbers for p and q
+    min_prime_value = 2**8
+    max_prime_value = 3**8
+    # Set the RSA to use Euler(True) or Carmichael's (False)
+    euler = False
+    # Generate public and private keys
+    public_key, private_key = rsa(min_prime_value, max_prime_value, euler=euler)
+    # int message
+    message = 12
+    # Encrypt message
+    encrypted_message = encrypt(message, public_key)
+    # Decrypt message
+    decrypted_message = decrypt(encrypted_message, private_key)
+    # Decrypt message with Chinese remainder theorem
+    decrypted_message_CRT = decrypt_CRT(encrypted_message, private_key)
+    print(decrypted_message)

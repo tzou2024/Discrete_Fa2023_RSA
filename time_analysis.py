@@ -8,13 +8,14 @@ import random
 
 REPETITION = 5
 
+
 # Testing different bit length numbers
 def prime_bit_length_complexity(min, max, step):
     """
     Find the time complexity between different bit ranges for prime numbers
 
-    min: The minium bit size for the prime number 
-    max: The maximum bit size for the prime number 
+    min: The minium bit size for the prime number
+    max: The maximum bit size for the prime number
     rep: Bit size step.
 
     Return:
@@ -35,11 +36,11 @@ def prime_bit_length_complexity(min, max, step):
             "Carmichael CRT Decryption Time": [],
         }
     )
-    # Convert bit size to integers 
+    # Convert bit size to integers
     min_value = 2**min
     max_value = 2**max
 
-    # Loop through every bit size 
+    # Loop through every bit size
     for size in range(min, max, step):
         # Set up range for prime numbers
         prime_range = f"{size}-{size+step}"
@@ -54,7 +55,7 @@ def prime_bit_length_complexity(min, max, step):
         end_time = time.time()
         prime_generation_time = end_time - start_time
         print(f"Prime Generation Time: {prime_generation_time}\n")
-        # Update data frame with data 
+        # Update data frame with data
         row.append(prime_generation_time)
 
         # Time analysis for Euler's totient function
@@ -199,7 +200,7 @@ def get_average_decryption(c, private_key, rep, message):
 
 def get_average_decryption_crt(c, private_key, rep, message):
     """
-    Calculate the average time taken for decryption of a ciphertext 'c' 
+    Calculate the average time taken for decryption of a ciphertext 'c'
     using the Chinese Remainder Theorem (CRT) method in RSA.
 
     Parameters:
@@ -223,6 +224,7 @@ def get_average_decryption_crt(c, private_key, rep, message):
         time_sum = total_time + time_sum
     average = time_sum / rep
     return average
+
 
 if __name__ == "__main__":
     # size in bits
