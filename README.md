@@ -88,30 +88,38 @@ As part of this project we have written a report on the proof of correctness of 
 
 ## Attacks
 
-There are two attacks implemented as part of the project: The Hastad Broadcast Attack and the Wiener's Attack. These two are one of the most well-known RSA attacks that have been proven to work due to specific conditions usually reliant on poorly chosen values for the algorithm. For implementation, we created a file called `attacks.py` which stores functions that implement and solve these attacks, dependent on functions created in `rsa.py`. 
+There are two attacks implemented as part of the project: The Hastad Broadcast Attack and the Wiener's Attack. These two are one of the most well-known RSA attacks that have been proven to work due to specific conditions usually reliant on poorly chosen values for the algorithm. For implementation, we created a file called `attacks.py` which stores functions that implement and solve these attacks, dependent on functions created in `rsa.py`.
 
 ### Hastad BroadCast Attack
 
 The Hastad Broadcast Attack is an attack which allows us to bypass the need for a private key and unencrypt ciphertext given these specific conditions:
 
-1. We need to have multiple different ciphertexts (C) generated from the same plaintext (M). Specifically, because Hastad's Broadcast works, once the number of ciphertexts > public key, this attack will work work. 
+1. We need to have multiple different ciphertexts (C) generated from the same plaintext (M). Specifically, because Hastad's Broadcast works, once the number of ciphertexts > public key, this attack will work work.
 
 2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), but the public key (e) is the same.
-3. The public key is a small value (small public exponent). 
+3. The public key is a small value (small public exponent).
 
-This allows us to use the Chinese Remainder Theorem and decipher what the plaintext is given multiple encryptions of it. The function `hastad_ciphertexts`automatically generates multiple different ciphertexts for the inputted message given a set public key and then proceeds to crack the encryption. 
+This allows us to use the Chinese Remainder Theorem and decipher what the plaintext is given multiple encryptions of it. The function `hastad_ciphertexts`automatically generates multiple different ciphertexts for the inputted message given a set public key and then proceeds to crack the encryption.
 
 ### Wiener's Attack
 
-This attack utilizes Weiner's Theorem (in the context of RSA) where given the public key (e, n), if  q < p < 2q and d < 1/3(n)^1/4 then k/d is amongst the convergences of e/n. 
+This attack utilizes Weiner's Theorem (in the context of RSA) where given the public key (e, n), if q < p < 2q and d < 1/3(n)^1/4 then k/d is amongst the convergences of e/n.
 
-This attack uses two functions, `wiener_n` and `wiener_attack`. The first function generates values p, q, and d that are within the Wiener's attack constraints, while the second function pulls everything together given a plaintext message to crack. 
+This attack uses two functions, `wiener_n` and `wiener_attack`. The first function generates values p, q, and d that are within the Wiener's attack constraints, while the second function pulls everything together given a plaintext message to crack.
 
 ## Time Complexity
 
 We compared multiple variations of RSA with a timing analysis. We ran each function 5 times and averaged the time together to gain an accurate understanding of the difference.
 
-## Results
+There was a significant difference between Euler's totient and Carmichael's totient especially as the bit size increased.
+
+![Euler vs. Carmichael's](images/Prime%20Number%20Bit%20Size%20Range%20vs%20Key%20Generation%20Time.png)
+
+There was not as significant difference between Chinese Reminder Theorem and the using the inverse modulo of e. We suspected that due to the small message and key sizes, the time decreases between CRT and the original decrypting method is not as noticeable. Due to the difficulty creating key's larger than 18 bits, we were not able to test our hypothesis, but average prime number sizes is from 1024 bits to 2024 bits.
+
+![Euler vs. Carmichael's](images/Prime%20Number%20Bit%20Size%20Range%20vs%20Decryption%20Time.png)
+
+Based on our time analysis, we learned that they are multiple ways to decrease the run time. With algorithms and math, we can use Carmichael's totient function and Chinese Reminder Theorem. With code we can use specific libraries to find prime numbers and greatest common divisor. Moreover, choices on caching prime numbers and using optimized code or different coding languages like C can help decrease the run time, and allow larger and more secure keys to be generated.
 
 # Citations
 
