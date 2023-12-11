@@ -18,14 +18,7 @@ C2 = M^e mod n2
 C3 = M^e mod n3
 
 
-<<<<<<< Updated upstream
-M^e = C1 mod n1
-
-2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), 
-but the public key (e) is the same.
-=======
 2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), but the public key (e) is the same
->>>>>>> Stashed changes
 3. The public key is a small value (small public exponent). 
 
 
@@ -48,33 +41,6 @@ def hastad_ciphertexts(message, e):
     min_range = 2**2
     max_range = 2**8
 
-<<<<<<< Updated upstream
-    keys = []
-
-    pub1, priv1 = rsa(min_range, max_range, e=e)
-    pub2, priv2 = rsa(min_range, max_range, e=e)
-    pub3, priv3 = rsa(min_range, max_range, e=e)
-
-    # Make sure the private keys are all different & exist
-    while type(priv1["d"]) == ValueError:
-        pub1, priv1 = rsa(min_range, max_range, e=e)
-    while (
-        type(priv2["d"]) == ValueError
-        or (priv2["d"] == priv1["d"])
-        or (priv2["d"] == priv3["d"])
-    ):
-        pub2, priv2 = rsa(min_range, max_range, e=e)
-    while (
-        type(priv3["d"]) == ValueError
-        or (priv3["d"] == priv2["d"])
-        or (priv3["d"] == priv1["d"])
-    ):
-        pub3, priv3 = rsa(min_range, max_range, e=e)
-
-    # check that all public keys are the same
-    if pub1["e"] == pub2["e"] == pub3["e"] == e:
-        print("All public keys are true")
-=======
     #Stores Private Keys
     private_keys= []
     public_keys = []
@@ -97,23 +63,15 @@ def hastad_ciphertexts(message, e):
             for private in private_keys:
                 if priv1["d"] == private["d"]:
                     inKeys = True
->>>>>>> Stashed changes
 
         private_keys.append(priv1)
         public_keys.append(pub1)
 
 
-<<<<<<< Updated upstream
-    # Generate 3 different ciphertexts of the same message
-    c1 = encrypt(message, pub1)
-    c2 = encrypt(message, pub2)
-    c3 = encrypt(message, pub3)
-=======
 
     ciphertexts = []
     for key in public_keys:
         ciphertexts.append(encrypt(message, key))
->>>>>>> Stashed changes
 
     # Given only ciphertexts, e, and n, we can work back what our original message was
 
@@ -123,27 +81,14 @@ def hastad_ciphertexts(message, e):
     N2 = N / pub2["n"]
     N3 = N / pub3["n"]
 
-<<<<<<< Updated upstream
-    u1 = mod_inverse(N1, pub1["n"])
-    u2 = mod_inverse(N2, pub2["n"])
-    u3 = mod_inverse(N3, pub3["n"])
-    M = (c1 * u1 * N1 + c2 * u2 * N2 + c3 * u3 * N3) % N
-    print(M)
-    m = M ** (1.0 / 3.0)
-    print(m)
-=======
 
 
     #CRT
     N=1
->>>>>>> Stashed changes
 
     for key in public_keys:
         N = N* key["n"]
 
-<<<<<<< Updated upstream
-# Weiner's Attack
-=======
 
     M =0
 
@@ -164,13 +109,30 @@ def hastad_ciphertexts(message, e):
 
 
 #Weiner's Attack
+
+def wiener_n(q):
+    """Generates random values p, q, and d where q < p < 2q and d < 1/3(n)^1/4"""
+
+    min_range = q
+    max_range = 2*q
+
+    pub, priv = rsa(min_range, max_range)
+
+    #Fulfill initial conditions
+    while priv["d"] >= ((1/3)*(priv["n"])**1/4):
+        pub, priv = rsa(min_range, max_range)
+
+    return pub, priv
+
+
+
+
 def weiner(message,):
     """ Weiner's Theorem (in the context of RSA): Given the public key (e, n), 
     if  q < p < 2q and d < 1/3(n)^1/4 then k/d is amongst the convergences of e/n"""
     
 
 
->>>>>>> Stashed changes
 
 
 if __name__ == "__main__":
