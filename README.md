@@ -2,6 +2,11 @@
 
 #### An Grocki, Trinity Lee, Trevor Zou
 
+
+## RSA
+
+#####As part of this project we have written a report on the proof of correctness of our RSA enryption viewable [here](Proof_of_RSA.pdf), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
+
 ## Introduction
 
 Rivest Shamir Adleman (RSA) is a popular cryptographic encryption algorithm. It is asymmetric, which means that each user is assigned a public and private key. Anyone can access and use another person’s public key to encode a message to them. Only the recipient can decrypt the message easily using their private key. RSA is based around the product of two large prime numbers. While the product is public, it is extremely hard to figure out what its factors are. These factors are used to encrypt and decrypt such that it is each computed on every input, but hard to invert given just an output.
@@ -80,11 +85,6 @@ $ python3 time_complexity.py
 The result of the time analysis should be printed in the terminal as well as saved to a csv in time*data folder with the name
 "prime*[min_size]-[max_size]\_[step]-[step_size].csv"
 
-#### Running Attacks:
-
-## RSA
-
-As part of this project we have written a report on the proof of correctness of our RSA enryption viewable [here](Proof_of_RSA.pdf), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
 
 ## Attacks
 
