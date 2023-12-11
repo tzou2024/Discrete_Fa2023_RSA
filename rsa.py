@@ -1,25 +1,26 @@
 """
-Implementation of RSA including variations with Euler's totient function, Carmichael totient function, and Chinese Remainder Theorem.
+Implementation of RSA including variations with Euler's totient function, Carmichael totient function,
+and Chinese Remainder Theorem.
 """
 # function to generate random prime integer
 import random
-from primePy import primes
 from math import gcd as bltin_gcd
+from primePy import primes
 
 
 # Memoized using LRU Cache
 # @lru_cache(maxsize=None)
-def generate_primes(min, max):
+def generate_primes(min_value, max_value):
     """
     Generate a random prime number within the given range.
 
-    min: Minimum value for the range.
-    max: Maximum value for the range.
+    min_value: Minimum value for the range.
+    max_value: Maximum value for the range.
 
     Returns:
     Random prime number within the specified range.
     """
-    available = primes.between(min, max)
+    available = primes.between(min_value, max_value)
     print("checking rpimes uniqueness: ", len(available) == len(set(available)))
     return random.sample(available, 2)
 
@@ -96,24 +97,25 @@ def carmichael_function(p, q):
     return rho_n
 
 
-def rsa(min, max, e=None, euler=True):
+def rsa(min_value, max_value, e=None, euler=True):
     """
     Implement the RSA key generation based given a range for prime numbers.
 
-    min: Minimum value for prime number generation.
-    max: Maximum value for prime number generation.
+    min_value: Minimum value for prime number generation.
+    max_value: Maximum value for prime number generation.
     e: public key if we want to manually set what e is.
+    euler: true if using euler's totient function or false if using Carmichael's
 
     Returns:
     Public and private keys.
     """
     # first choose p and q as two prime numbers that are different from each other
-    (p, q) = generate_primes(min, max)
+    (p, q) = generate_primes(min_value, max_value)
 
     print("generate p and q")
 
     while p == q:
-        q = generate_primes(min, max)
+        q = generate_primes(min_value, max_value)
 
     # calculate an n = p * q
     n = p * q
@@ -215,7 +217,7 @@ def runthrough(num_times):
         print("+++++++++++++++++++++++++++++++++++")
 
 
-def generate_pq(min, max):
+def generate_pq(min_value, max_value):
     """
     Generate two distinct prime numbers 'p' and 'q' within the given range.
 
@@ -227,10 +229,10 @@ def generate_pq(min, max):
     A tuple containing two distinct prime numbers 'p' and 'q'.
     """
 
-    (p, q) = generate_primes(min, max)
+    (p, q) = generate_primes(min_value, max_value)
     print("generate p and q")
     while p == q:
-        q = generate_primes(min, max)
+        q = generate_primes(min_value, max_value)
     return (p, q)
 
 

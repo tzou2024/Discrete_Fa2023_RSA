@@ -2,20 +2,21 @@
 Running time analysis of RSA implementations.
 """
 import time
-import rsa
-import pandas
 import random
+import pandas
+import rsa
+
 
 REPETITION = 5
 
 
 # Testing different bit length numbers
-def prime_bit_length_complexity(min, max, step):
+def prime_bit_length_complexity(min_bit_size, max_bit_size, step):
     """
     Find the time complexity between different bit ranges for prime numbers
 
-    min: The minium bit size for the prime number
-    max: The maximum bit size for the prime number
+    min_value: The minium bit size for the prime number
+    max_value: The maximum bit size for the prime number
     rep: Bit size step.
 
     Return:
@@ -37,8 +38,8 @@ def prime_bit_length_complexity(min, max, step):
         }
     )
     # Convert bit size to integers
-    min_value = 2**min
-    max_value = 2**max
+    min_value = 2**min_bit_size
+    max_value = 2**max_bit_size
 
     # Loop through every bit size
     for size in range(min, max, step):

@@ -10,8 +10,8 @@ Basically, we can decipher what M is without needing to know what d is if the fo
 
 Conditions: 
 
-1. We need to have multiple different ciphertexts (C) generated from the same plaintext (M). Specifically, because Hastad's Broadcast
-works,once the number of ciphertexts > public key, this attack will work work. 
+1. We need to have multiple different ciphertexts (C) generated from the same plaintext (M). Specifically, 
+because Hastad's Broadcast works,once the number of ciphertexts > public key, this attack will work work. 
 
 C1 = M^e mod n1
 C2 = M^e mod n2
@@ -20,7 +20,8 @@ C3 = M^e mod n3
 
 M^e = C1 mod n1
 
-2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), but the public key (e) is the same
+2. These different ciphertexts used multiple different p & q (to generate n1, n2, n3, etc), 
+but the public key (e) is the same.
 3. The public key is a small value (small public exponent). 
 
 
@@ -28,12 +29,12 @@ M^e = C1 mod n1
 
 
 def hastad_ciphertexts(message, e):
-    """Hastad BroadCast Attack ciphertext generators. Will try to implement the Hastad Broadcast Attack given
-    the plaintext & the public key
+    """
+    Hastad BroadCast Attack ciphertext generators. Will try to implement the Hastad Broadcast 
+    Attack given the plaintext & the public key
 
-    Parameters
-        message: our plaintext message
-        e: our public key
+    message: our plaintext message
+    e: our public key
 
     """
 
