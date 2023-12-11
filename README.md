@@ -29,7 +29,7 @@ In order to run the algorithm and timing analysis, you need to install the follo
 
 #### Running RSA Encryption
 
-To generate the public key and private key update values for the minium and maximum prime number for prime number generation `rsa.py`. You can also switch `euler` to `True` for using the Euler's totient function or `False` to use Carmichael's totient function.
+To generate the public key and private key update values for the minium and maximum prime number for prime number generation `rsa.py`. The `euler` argument in the `rsa` function can ether be `True` for using the Euler's totient function or `False` to use Carmichael's totient function.
 
 ```
 # Range of prime numbers for p and q
@@ -78,19 +78,19 @@ $ python3 time_complexity.py
 ```
 
 The result of the time analysis should be printed in the terminal as well as saved to a csv in time*data folder with the name
-"prime*`min_size`-`max_size`\_step-`step_size`.csv"
+"prime*[min_size]-[max_size]\_[step]-[step_size].csv"
 
 #### Running Attacks:
 
 ## RSA
 
-As part of this project we have written a report on the proof of correctness of our RSA enryption viewable here[INSERT LINK HERE](), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
+As part of this project we have written a report on the proof of correctness of our RSA enryption viewable [here](Proof_of_RSA.pdf), as well as a slideshow with a high level overview of RSA encryption [here](https://docs.google.com/presentation/d/1KGHfXNhAheroX9nkbQGTQ6GJr7s40qyXcX0OL20XZtc/edit?usp=sharing).
 
 ## Attacks
 
 There are two attacks implemented as part of the project: The Hastad Broadcast Attack and the Wiener's Attack. These two are one of the most well-known RSA attacks that have been proven to work due to specific conditions usually reliant on poorly chosen values for the algorithm. For implementation, we created a file called `attacks.py` which stores functions that implement and solve these attacks, dependent on functions created in `rsa.py`.
 
-### Hastad BroadCast Attack
+### Hastad Broadcast Attack
 
 The Hastad Broadcast Attack is an attack which allows us to bypass the need for a private key and unencrypt ciphertext given these specific conditions:
 
