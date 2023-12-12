@@ -101,15 +101,64 @@ The Hastad Broadcast Attack is an attack which allows us to bypass the need for 
 
 This allows us to use the Chinese Remainder Theorem and decipher what the plaintext is given multiple encryptions of it. The function `hastad_ciphertexts`automatically generates multiple different ciphertexts for the inputted message given a set public key and then proceeds to crack the encryption. 
 
+To run this, just input the message (which is an integer) which you'd like to encrypt and the public key of your choice for to run the function. For example, if we want to encrypt `1234` with a public encryption key of `3`, it will look like this:
+
+'''
+hastad_ciphertexts(1234, 3)
+'''
+
+The function outputs:
+
+'''
+
+Actual Plaintext: 1234
+CipherText 0 : 10783  | Calculating Modular Inverse of N:  6432
+CipherText 1 : 819  | Calculating Modular Inverse of N:  562
+CipherText 2 : 30735  | Calculating Modular Inverse of N:  14422
+Plaintext Approximated from ciphertexts via CRT:  1233.9999999999995
+'''
+
 ### Wiener's Attack
 
 This attack utilizes Weiner's Theorem (in the context of RSA) where given the public key (e, n), if  q < p < 2q and d < 1/3(n)^1/4 then k/d is amongst the convergences of e/n. 
 
 This attack uses two functions, `wiener_n` and `wiener_attack`. The first function generates values p, q, and d that are within the Wiener's attack constraints, while the second function pulls everything together given a plaintext message to crack. 
 
+Wiener's Attack finds `d` from the list of potential `d`'s calculated by convergence. 
+    
+1. Use the d value to calculate a phi(n) via 
+        phi(n) = ed -1/k
+2. Use phi(n) to calculate a the roots for the solution for  
+        x^2 - (n - phi(n)+1)x + n = 0
+3. The roots are p & q, and if they match the chosen n, then we have found the correct private key d
+    
+There are multiple functions that make up Wiener's attack, with the function `wiener()` tying all of the functions together. 
 ## Time Complexity
 
 We compared multiple variations of RSA with a timing analysis. We ran each function 5 times and averaged the time together to gain an accurate understanding of the difference.
+
+`wiener_n()` is a function that brute force calculates a public and private key that is useable for Wiener's attack. However, due to the nature of finding a public and private key that meet these conditions, it takes an extremely long time to calculate with these values
+
+`continued_frac()` is a function that calculates a list of continued fractions for e/N and calculates all possible convergents for k/d
+
+`solve_d`is a function that calculates the correct private key from the list of all possible private keys generated from the convergents for k/d. 
+
+Below is an proof of concept that they functions work as intended given a public key that is known to be vulnerable to this attack. 
+
+'''
+    #Proof of concept that functions work
+     n = 90581
+     e = 17993
+     k, d = continued_frac(e, n)
+     print(k)
+     #[0, 1, 29, 117, 146, 555, 1256, 5579, 17993]
+     print(d)
+    #[1, 5, 146, 589, 735, 2794, 6323, 28086, 90581]
+
+     x = solve_d(e,n, k, d)
+     print (x)
+     #(239, 379, 5)
+'''
 
 ## Results
 

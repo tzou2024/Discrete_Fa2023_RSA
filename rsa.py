@@ -95,12 +95,7 @@ def carmichael_function(p, q):
     rho_n = lcm((p - 1), (q - 1))
     return rho_n
 
-<<<<<<< Updated upstream
-
 def rsa(min_value, max_value, e=None, euler=True):
-=======
-def rsa(min, max, e=None):
->>>>>>> Stashed changes
     """
     Implement the RSA key generation based given a range for prime numbers.
 
@@ -142,6 +137,7 @@ def rsa(min, max, e=None):
     pub = {"e": e, "n": n}
     priv = {"d": d, "n": n, "p": p, "q": q}
     return pub, priv
+
 
 
 def encrypt(m, pub):
