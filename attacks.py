@@ -60,6 +60,20 @@ def hastad_ciphertexts(message, e):
             if priv1["d"] == private["d"]:
                 inKeys = True
 
+<<<<<<< Updated upstream
+
+        while priv1["d"] == ValueError or inKeys:
+            inKeys = False
+            pub1, priv1 = rsa(min_range, max_range, e=e)
+
+            for private in private_keys:
+                if priv1["d"] == private["d"]:
+                    inKeys = True
+
+        private_keys.append(priv1)
+        public_keys.append(pub1)
+
+=======
 
         while priv1["d"] == ValueError or inKeys:
             inKeys = False
@@ -77,6 +91,12 @@ def hastad_ciphertexts(message, e):
     ciphertexts = []
     for key in public_keys:
         ciphertexts.append(encrypt(message, key))
+>>>>>>> Stashed changes
+
+
+    ciphertexts = []
+    for key in public_keys:
+        ciphertexts.append(encrypt(message, key))
 
     # Given only ciphertexts, e, and n, we can work back what our original message was
     N=1
@@ -87,7 +107,10 @@ def hastad_ciphertexts(message, e):
 
   
 
+
+
     #CRT
+<<<<<<< Updated upstream
 
     print("Actual Plaintext:", message)
     for count, key in enumerate(public_keys):
@@ -218,6 +241,38 @@ def solve_d(e,n,klist, dlist):
 
             #Calculate potential phi_n
             phi_n = (e * d -1)//k
+=======
+    N=1
+
+    for key in public_keys:
+        N = N* key["n"]
+
+
+    M =0
+
+    print("Actual Plaintext:", message)
+    for count, key in enumerate(public_keys):
+
+        inversed = mod_inverse(N/key["n"], key["n"]) #50-50 chance of giving us a ValueError because there isn't a 
+
+        print("CipherText", count, ":",  ciphertexts[count], " | Calculating Modular Inverse of N: ", inversed)
+
+        M += ciphertexts[count] * inversed * N/key["n"]
+
+
+    M = M % N
+
+    m = M**(1.0/e)
+    print("Plaintext Approximated from ciphertexts via CRT: ", m)
+
+
+#Weiner's Attack
+def weiner(message,):
+    """ Weiner's Theorem (in the context of RSA): Given the public key (e, n), 
+    if  q < p < 2q and d < 1/3(n)^1/4 then k/d is amongst the convergences of e/n"""
+    
+
+>>>>>>> Stashed changes
 
 
             #Solve quadratic equation to calculate potential p & q
